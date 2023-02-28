@@ -1,2 +1,2 @@
 config.py
-API/__pycache__/config.cpython-310.pyc
+API/__pycache__/*.pyc

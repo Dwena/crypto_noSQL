@@ -1,11 +1,15 @@
 import pymongo
 import API.config as cf
+import certifi
+
+
+ca = certifi.where()
 
 
 class Database():
     def __init__(self) -> None:
         client = pymongo.MongoClient(
-            f"mongodb+srv://{cf.mongodb['login']}:{cf.mongodb['password']}@cryptocluster0.azkufll.mongodb.net/?retryWrites=true&w=majority")
+            f"mongodb+srv://{cf.mongodb['login']}:{cf.mongodb['password']}@cryptocluster0.azkufll.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=ca)
         self.db = client.CryptoData
     
     def get_collections(self):

@@ -1,5 +1,5 @@
 import pymongo
-import API.config as cf
+import config as cf
 
 
 class Database():
@@ -11,6 +11,12 @@ class Database():
     def get_collections(self):
         for collection in self.db.list_collection_names():
             print(collection)
+            
+    def drop_collection(self,collection):
+        self.db.drop_collection(collection)
+            
+    def add_data_coins(self,data):
+        self.db.coins.insert_many(data)        
 
 
 if __name__ == "__main__":

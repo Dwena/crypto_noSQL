@@ -7,4 +7,4 @@ def go_home():
     return 'Welcome to the CryptoData API!'
 
 if __name__=="__main__":
-    app.run(port=8888)
+    app.run()

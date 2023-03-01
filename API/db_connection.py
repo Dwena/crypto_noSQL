@@ -2,8 +2,8 @@ import pymongo
 import API.config as cf
 import certifi
 
-
 ca = certifi.where()
+import pandas as pd
 
 
 class Database():
@@ -16,6 +16,20 @@ class Database():
     def get_collections(self):
         for collection in self.db.list_collection_names():
             print(collection)
+            
+    def drop_collection(self,collection):
+        self.db.drop_collection(collection)
+            
+    def add_data_coins(self,data):
+        self.db.coins.insert_many(data)        
+
+    def add_data_currency(self,data):
+        # for currency in data:
+        #     print(currency)
+        self.db.currency.insert_many(data)
+
+    def drop_currency(self,currency):
+        self.db.drop_currency(currency)
 
     def get_one_coin(self, objects_ids):
         collection = self.db.coins.find({"id": objects_ids})
@@ -45,7 +59,6 @@ if __name__ == "__main__":
     # add_object()
     # delete_object()
 
-
 # create a function to read the informations of a list of objects.
 
 # create a function to read the informations of an object.
@@ -53,3 +66,10 @@ if __name__ == "__main__":
 # create a function to modify the informations of an object.
 # create a function to add a new object.
 # create a function to delete an object.
+
+    
+    #df_currency = pd.read_csv("currencies.csv")
+    #currencies = df_currency.to_dict(orient="records")
+    #db.add_data_currency(currencies)
+    #print(currencies)
+

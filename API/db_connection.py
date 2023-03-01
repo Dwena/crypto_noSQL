@@ -25,6 +25,7 @@ class Database():
         collection = self.db.coins.find()
         return list(collection)
     
+    
     # def update_object(self, collection_name, filters, updates):
     #     collection = self.db[collection_name]
     #     result = collection.update_many(filters, updates)

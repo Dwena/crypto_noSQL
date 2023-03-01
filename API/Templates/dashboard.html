@@ -9,6 +9,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.css"> -->
     <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
   </head>
+
   <body>    
     <div class="content">
         <header>
@@ -18,27 +19,33 @@
               Suivi du court de la Crypto
             </h1>
           </div>
-          <button onclick="window.location.href='/refresh'">Mettre à jour les données</button>
+          <button onclick="window.location.href='/update'">Mettre à jour les données</button>
         </header>
         
         <main>
           <div id="tableCoins">
             {% for valeur in coins %}
-                <div onclick="ouvrirModal('{{ valeur.name }}', '{{ valeur.image }}', '{{ valeur.last_updated }}', '{{ valeur.current_price }}')" class="coin" id="{{valeur._id}}">
+            <!-- <div onclick="ouvrirModal('{{ valeur.name }}', '{{ valeur.image }}', '{{ valeur.last_updated }}', '{{ valeur.current_price }}')" class="coin" id="{{valeur.id}}"> -->
+              <div onclick="window.location.href='/show/{{valeur.id}}'" class="coin" id="{{valeur.id}}">
                   <img class="logo" src="{{valeur.image}}" alt="logo">
+                  
                   <p>{{ valeur.name }}</p>
                 </div>
             {% endfor %}
           </div>
 
+          {% if coin %}
           <div id="modal" class="modal">
             <div class="modal-content">
-              <img id="modal-image" src="">
-              <span class="close" onclick="fermerModal()">&times;</span>
-              <p id="modal-nom"></p>
+              <div style="display: flex; justify-content: space-between;">
+                <img id="modal-image" src="{{ coin[0].image }}">
+                <h2 id="modal-nom">{{ coin[0].name }}</h2>
+                <span class="close" onclick="window.location.href='/'">&times;</span>
+              </div>
               <div id="myPlot"></div>
             </div>
           </div>
+          {% endif %}
           
         </main>
       </div>

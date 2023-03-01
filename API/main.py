@@ -12,6 +12,12 @@ def go_home():
     coins = db.get_all_coins()
     return render_template("dashboard.html", coins=coins)
 
+@app.route('/show/<id>', methods=['GET'])
+def go_popup(id):
+    coins = db.get_all_coins()
+    coin = db.get_one_coin(id)
+    return render_template("dashboard.html", coins=coins, coin=coin)
+
 
 # @app.route("/refresh_coins", methods=['GET'])
 # def refresh_coins():
@@ -24,9 +30,8 @@ def go_home():
 
 
 
-
 if __name__ == "__main__":
-     app.run()
+     app.run(debug=True)
 #     try:
 #         db.drop_collection("coins")
 #     except Exception:

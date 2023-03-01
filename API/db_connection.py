@@ -1,5 +1,5 @@
 import pymongo
-import API.config as cf
+import config as cf
 import certifi
 
 ca = certifi.where()

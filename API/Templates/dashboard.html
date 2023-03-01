@@ -18,12 +18,28 @@
               Suivi du court de la Crypto
             </h1>
           </div>
+          <button onclick="window.location.href='/refresh'">Mettre à jour les données</button>
         </header>
         
         <main>
-          <div id="myPlot" style="width:600px;height:250px;"></div>
-          <script>
-          </script>
+          <div id="tableCoins">
+            {% for valeur in coins %}
+                <div onclick="ouvrirModal('{{ valeur.name }}', '{{ valeur.image }}', '{{ valeur.last_updated }}', '{{ valeur.current_price }}')" class="coin" id="{{valeur._id}}">
+                  <img class="logo" src="{{valeur.image}}" alt="logo">
+                  <p>{{ valeur.name }}</p>
+                </div>
+            {% endfor %}
+          </div>
+
+          <div id="modal" class="modal">
+            <div class="modal-content">
+              <img id="modal-image" src="">
+              <span class="close" onclick="fermerModal()">&times;</span>
+              <p id="modal-nom"></p>
+              <div id="myPlot"></div>
+            </div>
+          </div>
+          
         </main>
       </div>
   </body>

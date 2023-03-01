@@ -9,8 +9,8 @@ db = Database()
 
 @app.route('/', methods=['GET'])
 def go_home():
-    # return 'Welcome to the CryptoData API!'
-    return render_template("dashboard.html")
+    coins = db.get_all_coins()
+    return render_template("dashboard.html", coins=coins)
 
 
 # @app.route("/refresh_coins", methods=['GET'])

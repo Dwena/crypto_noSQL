@@ -3,7 +3,7 @@ from gecko import geckoAPI
 from db_connection import Database
 
 app = Flask(__name__)
-# gecko = geckoAPI()
+gecko = geckoAPI()
 db = Database()
 
 
@@ -31,10 +31,11 @@ def go_popup(id):
 
 
 if __name__ == "__main__":
-     app.run(debug=True)
 #     try:
 #         db.drop_collection("coins")
 #     except Exception:
 #         pass
 #     coins = gecko.get_coins_list()
 #     db.add_data_coins(coins)
+      app.run(debug=True)
+

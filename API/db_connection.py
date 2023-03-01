@@ -1,9 +1,10 @@
+import pandas as pd
 import pymongo
 import config as cf
 import certifi
+from pprint import pprint
 
 ca = certifi.where()
-import pandas as pd
 
 
 class Database():
@@ -16,30 +17,42 @@ class Database():
     def get_collections(self):
         for collection in self.db.list_collection_names():
             print(collection)
-            
-    def drop_collection(self,collection):
+
+    def drop_collection(self, collection):
         self.db.drop_collection(collection)
-            
-    def add_data_coins(self,data):
+
+    def add_data_coins(self, data):
         self.db.coins.insert_many(data)
 
-    def add_data_currency(self,data):
+    def add_data_currency(self, data):
         # for currency in data:
         #     print(currency)
         self.db.currency.insert_many(data)
 
-    def drop_currency(self,currency):
+    def drop_currency(self, currency):
         self.db.drop_currency(currency)
 
     def get_one_coin(self, objects_ids):
         collection = self.db.coins.find({"id": objects_ids})
         return list(collection)
-    
+
     def get_all_coins(self):
         collection = self.db.coins.find()
         return list(collection)
-    
-    
+
+    def get_currencies(self):
+        return list(self.db.currency.find())
+
+    def update_coin(self, id, price, date):
+        coin = list(self.db.coins.find({"id": id}))[0]
+        price_per_day = {coin["last_updated"]: coin["current_price"],
+                         date: price}
+        self.db.coins.update_one({"id": id},
+                                 {"$set": {"current_price": price,
+                                           "last_updated": date,
+                                           "price_per_day": price_per_day}}
+                                 )
+
     # def update_object(self, collection_name, filters, updates):
     #     collection = self.db[collection_name]
     #     result = collection.update_many(filters, updates)
@@ -58,9 +71,9 @@ class Database():
 
 if __name__ == "__main__":
     db = Database()
-    db.get_collections()
-    get_one_coin()
-    get_all_coins()
+    # db.get_collections()
+    # get_one_coin()
+    # get_all_coins()
     # update_object()
     # add_object()
     # delete_object()
@@ -73,9 +86,7 @@ if __name__ == "__main__":
 # create a function to add a new object.
 # create a function to delete an object.
 
-    
     #df_currency = pd.read_csv("currencies.csv")
     #currencies = df_currency.to_dict(orient="records")
-    #db.add_data_currency(currencies)
-    #print(currencies)
-
+    # db.add_data_currency(currencies)
+    # print(currencies)

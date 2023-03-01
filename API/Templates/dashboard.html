@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Crypto noSQL</title>
+    <!-- <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.min.js"></script> -->
+    <script src="https://cdn.plot.ly/plotly-2.18.2.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/novus/nvd3/v1.8.1/build/nv.d3.css"> -->
+    <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+  </head>
+  <body>    
+    <div class="content">
+        <header>
+          <div class="header-background"></div>
+          <div class="title">
+            <h1>
+              Suivi du court de la Crypto
+            </h1>
+          </div>
+          <button onclick="window.location.href='/refresh'">Mettre à jour les données</button>
+        </header>
+        
+        <main>
+          <div id="tableCoins">
+            {% for valeur in coins %}
+                <div onclick="ouvrirModal('{{ valeur.name }}', '{{ valeur.image }}', '{{ valeur.last_updated }}', '{{ valeur.current_price }}')" class="coin" id="{{valeur._id}}">
+                  <img class="logo" src="{{valeur.image}}" alt="logo">
+                  <p>{{ valeur.name }}</p>
+                </div>
+            {% endfor %}
+          </div>
+
+          <div id="modal" class="modal">
+            <div class="modal-content">
+              <img id="modal-image" src="">
+              <span class="close" onclick="fermerModal()">&times;</span>
+              <p id="modal-nom"></p>
+              <div id="myPlot"></div>
+            </div>
+          </div>
+          
+        </main>
+      </div>
+  </body>
+  <script src="/static/mydashboard.js"></script>
+</html>

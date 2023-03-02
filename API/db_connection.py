@@ -58,15 +58,18 @@ class Database():
         return list(collection)
 
     def add_data_collection(self, data, collection):
+        a = []
+        for i in data:
+            a.append({"date": i[0], "price": i[1]})
         print(data)
-        self.db[collection].insert_many(data)
-    
+        self.db[collection].insert_many(a)
+
     def update_specific_coin(self,id,currency,price,date):
         self.db[f'{id}_{currency}'].insert_one({"date":date,
                                                 "price":price})
 
     def get_history_currency(self, id_coin, currency):
-        collection = self.db[id_coin + '_' + currency].find()
+        collection = self.db[f'{id_coin}_{currency}'].find()
         return collection
 
     # def update_object(self, collection_name, filters, updates):

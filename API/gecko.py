@@ -17,6 +17,7 @@ class geckoAPI():
     def get_history(self, id, currency):
         response = requests.get(
             f"{self.base_url}coins/{id}/market_chart?vs_currency={currency}&days=91", self.header)
+        print(response.json())
         return response.json()
 
 

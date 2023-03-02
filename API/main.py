@@ -1,3 +1,5 @@
+from time import sleep
+
 from flask import Flask, render_template
 
 from utils import Utils
@@ -26,6 +28,30 @@ def go_home():
     return render_template("dashboard.html", coins=coins)
 
 
+@app.route('/fill', methods=['GET'])
+def fill():
+    num = 0
+    coins = db.get_all_coins()
+    for coin in coins:
+        id = coin["id"]
+        if id not in ["bitcoin", "ethereum", "tether"]:
+            currencies = db.get_currencies()
+            for currency in currencies:
+                code = currency["CurrencyCode"]
+                if code in ["USD", "CNY", "EUR", "PHP"]:
+                    try:
+                        db.drop_collection(f'{id}_{code.lower()}')
+                    except Exception:
+                        pass
+                    if num % 10 == 0:
+                        sleep(60)
+                    history = gecko.get_history(id, code.lower())["prices"]
+
+                    db.add_data_collection(history, f'{id}_{code.lower()}')
+
+                    num += 1
+
+
 @app.route('/update', methods=['GET'])
 def update():
     refresh_coins()
@@ -41,19 +67,20 @@ def update():
                 if id in ["bitcoin", "ethereum", "tether"]:
                     db.update_specific_coin(id, code, price, date)
 
-#@app.route('/collection', methods=['GET'])
-#def get_history():
- #   try:
-  #      db.drop_collection("bitcoin_usd")
-   # except Exception:
-    #    pass
-    #history = gecko.get_history('bitcoin', 'usd')
-    #print(history)
-    #db.add_data_collection(history, "bitcoin_usd")
-    #return 'bitcoin_usd added'
-    # timestamp = 1669852800000 //1000  # Unix timestamp in seconds
-    # date = datetime.fromtimestamp(timestamp)  # create a datetime object from the timestamp
-    # return date.strftime('%Y-%m-%d')  # format the datetime according to your needs
+
+# @app.route('/collection', methods=['GET'])
+# def get_history():
+#   try:
+#      db.drop_collection("bitcoin_usd")
+# except Exception:
+#    pass
+# history = gecko.get_history('bitcoin', 'usd')
+# print(history)
+# db.add_data_collection(history, "bitcoin_usd")
+# return 'bitcoin_usd added'
+# timestamp = 1669852800000 //1000  # Unix timestamp in seconds
+# date = datetime.fromtimestamp(timestamp)  # create a datetime object from the timestamp
+# return date.strftime('%Y-%m-%d')  # format the datetime according to your needs
 
 @app.route('/show/<id>', methods=['GET'])
 def go_popup(id):

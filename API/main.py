@@ -64,8 +64,10 @@ def update():
                 date = Utils.from_iso_to_timestamp(coin["last_updated"])
                 price = coin["current_price"]
                 id = coin["id"]
-                if id in ["bitcoin", "ethereum", "tether",]:
+                try:
                     db.update_specific_coin(id, code, price, date)
+                except Exception:
+                    pass
     return redirect("/")
 
 
@@ -97,7 +99,7 @@ def go_popup(id):
 
 if __name__ == "__main__":
     app.run(debug=True)
-    
+    # update()
     # def get_history():
     #     btc = []
     #     history = gecko.get_history('tether', 'usd')["prices"]

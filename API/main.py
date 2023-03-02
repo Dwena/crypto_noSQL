@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from gecko import geckoAPI
+from datetime import datetime
 from db_connection import Database
 from pprint import pprint
 
@@ -38,8 +39,37 @@ def update():
                 if id in ["bitcoin", "ethereum", "tether"]:
                     db.update_specific_coin(id, code, price, date)
 
+@app.route('/show/<id>', methods=['GET'])
+def go_popup(id):
+    coins = db.get_all_coins()
+    coin = db.get_one_coin(id)
+    return render_template("dashboard.html", coins=coins, coin=coin)
+
+#@app.route('/collection', methods=['GET'])
+#def get_history():
+ #   try:
+  #      db.drop_collection("bitcoin_usd")
+   # except Exception:
+    #    pass
+    #history = gecko.get_history('bitcoin', 'usd')
+    #print(history)
+    #db.add_data_collection(history, "bitcoin_usd")
+    #return 'bitcoin_usd added'
+    # timestamp = 1669852800000 //1000  # Unix timestamp in seconds
+    # date = datetime.fromtimestamp(timestamp)  # create a datetime object from the timestamp
+    # return date.strftime('%Y-%m-%d')  # format the datetime according to your needs
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
 
-    # update()
+    # def get_history():
+    #     btc = []
+    #     history = gecko.get_history('tether', 'usd')["prices"]
+    #
+    #     for(i, j) in history:
+    #         btc.append({"date": i, "price": j})
+    #     db.add_data_collection(btc, "tether_usd")
+    #     return 'ok'
+    # get_history()

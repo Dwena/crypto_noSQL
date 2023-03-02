@@ -52,6 +52,12 @@ class Database():
                                            "last_updated": date,
                                            "price_per_day": price_per_day}}
                                  )
+    def get_history(self,id):
+        collection = self.db.history.find({"id": id})
+        return list(collection)
+    def add_data_collection(self,data,collection):
+        print(data)
+        self.db[collection].insert_many(data)
     
     def update_specific_coin(self,id,currency,price,date):
         self.db[f'{id}_{currency}'].insert_one({"date":date,

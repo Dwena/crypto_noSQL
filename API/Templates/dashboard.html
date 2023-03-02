@@ -36,17 +36,112 @@
 
           {% if coin %}
           <div id="modal" class="modal">
-            <div style="display:none" id="dataCoin">{{coin[0]}}</div>
+            <div style="display:none" id="dataUsd">{{usd}}</div>
+            <div style="display:none" id="dataCoin">{{eur}}</div>
+            <div style="display:none" id="dataCoin">{{php}}</div>
+            <div style="display:none" id="dataCoin">{{cny}}</div>
             <div class="modal-content">
               <div style="display: flex; justify-content: space-between;">
                 <img id="modal-image" src="{{ coin[0].image }}">
                 <h2 id="modal-nom">{{ coin[0].name }}</h2>
                 <span class="close" onclick="window.location.href='/'">&times;</span>
               </div>
-              <div id="myPlot"></div>
+              <div style="display:flex">
+                <div id="currencies" style="display:flex; flex-direction: column;">
+                  <p>Choix de la monnaie:</p>
+                  <button id="usd" title="Dollar Americain" class="currency active">$</button>
+                  <button id="eur" title="Euro" class="currency">€</button>
+                  <button id="php" title="Peso Philippin" class="currency">₱</button>
+                  <button id="cny" title="Yuan renminbi chinois" class="currency">元</button>
+                </div>
+                <div id="myPlot"></div>
+              </div>
             </div>
           </div>
-          <script src="/static/graph.js"></script>
+
+          <script>
+              const dataCoin = document.getElementById("dataCoin");
+              const dataUsd = {{ usd|safe }}
+              const dateUsd = []
+              const valeurUsd = []
+              const dataEur = {{ eur|safe }}
+              const dateEur = []
+              const valeurEur = []
+              const dataPhp = {{ php|safe }}
+              const datePhp = []
+              const valeurPhp = []
+              const dataCny = {{ cny|safe }}
+              const dateCny = []
+              const valeurCny = []              
+              const TESTER = document.getElementById('myPlot');
+
+              for (let i = 0; i < dataUsd.length; i++) {
+                  dateUsd.push(dataUsd[i]["date"])
+                  valeurUsd.push(dataUsd[i]["price"])
+              }
+              for (let i = 0; i < dataEur.length; i++) {
+                  dateEur.push(dataEur[i]["date"])
+                  valeurEur.push(dataEur[i]["price"])
+              }
+              for (let i = 0; i < dataPhp.length; i++) {
+                  datePhp.push(dataPhp[i]["date"])
+                  valeurPhp.push(dataPhp[i]["price"])
+              }
+              for (let i = 0; i < dataCny.length; i++) {
+                  dateCny.push(dataCny[i]["date"])
+                  valeurCny.push(dataCny[i]["price"])
+              }
+
+              var dateGraph = dateUsd
+              var valeurGraph = valeurUsd
+
+              var myplot = Plotly.newPlot( TESTER, [{
+              x: dateGraph,
+              y: valeurGraph }], {
+              margin: { t: 0 } } );
+              
+              const currencyClicked = document.getElementsByClassName("currency");
+              for(let i = 0; i < currencyClicked.length; i++) {
+                currencyClicked[i].addEventListener("click", function () {  
+                  for(let j = 0; j < currencyClicked.length; j++) {
+                    currencyClicked[j].classList.remove("active")
+                  }
+                  Plotly.purge(myplot);
+                  console.log(currencyClicked[i].id)
+                  currencyClicked[i].classList.add("active")
+                  if(currencyClicked[i].id == "usd") {
+                    dateGraph = dateUsd
+                    valeurGraph = valeurUsd
+                  } else if(currencyClicked[i].id == "eur") {
+                    console.log('ineur')
+                    dateGraph = dateEur
+                    valeurGraph = valeurEur
+                    console.log(valeurGraph)
+                  } else if(currencyClicked[i].id == "php") {
+                    dateGraph = datePhp
+                    valeurGraph = valeurPhp
+                    console.log(dateGraph)
+                    console.log(valeurGraph)
+                  } else if(currencyClicked[i].id == "cny") {
+                    dateGraph = dateCny
+                    valeurGraph = valeurCny
+                    console.log(valeurGraph)
+                  }
+                  Plotly.newPlot( TESTER, [{
+                  x: dateGraph,
+                  y: valeurGraph }], {
+                  margin: { t: 0 } } );
+                })
+              }
+              // function active() {
+              //   // currencyClicked.classList.remove("active")
+              //   // currencyClicked.classList.add("active")
+              //     // retirer la class activ
+              //     // ajouter la class activ
+              // }
+
+          </script>
+
           {% endif %}
           
         </main>

@@ -63,11 +63,8 @@ def go_popup(id):
     php = Utils.get_time_from_timestamp(db.get_history_currency(id, "php"))
     eur = Utils.get_time_from_timestamp(db.get_history_currency(id, "eur"))
     cny = Utils.get_time_from_timestamp(db.get_history_currency(id, "cny"))
-    print('usd', usd)
-    print('php', php)
-    print('eur', eur)
-    print('cny', cny)
-    return render_template("dashboard.html", coins=coins, coin=coin)
+    print(usd)
+    return render_template("dashboard.html", coins=coins, coin=coin, usd=usd, php=php, eur=eur, cny=cny)
 
 
 if __name__ == "__main__":

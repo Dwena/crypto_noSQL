@@ -8,9 +8,9 @@ class geckoAPI():
         self.base_url = cf.gecko_api["url"]
         self.header = cf.gecko_api["header"]
 
-    def get_coins_list(self):
+    def get_coins_list(self,code):
         response = requests.get(
-            f"{self.base_url}coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=false",
+            f"{self.base_url}coins/markets?vs_currency={code}&order=market_cap_desc&per_page=250&page=1&sparkline=false",
             self.header)
         return response.json()
 

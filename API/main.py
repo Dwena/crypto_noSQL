@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 
 from utils import Utils
 from gecko import geckoAPI
@@ -9,6 +9,7 @@ from pprint import pprint
 app = Flask(__name__)
 gecko = geckoAPI()
 db = Database()
+util=Utils()
 
 
 def refresh_coins():
@@ -31,15 +32,16 @@ def update():
     refresh_coins()
     currencies = db.get_currencies()
     for currency in currencies:
-        code = currency["CurrencyCode"]
-        if code in ["USD", "CNY", "EUR", "PHP"]:
+        code = str(currency["CurrencyCode"]).lower()
+        if code in ["usd", "cny", "eur", "php"]:
             data = gecko.get_coins_list(code)
             for coin in data:
-                date = coin["last_updated"]
+                date = Utils.from_iso_to_timestamp(coin["last_updated"])
                 price = coin["current_price"]
                 id = coin["id"]
                 if id in ["bitcoin", "ethereum", "tether"]:
                     db.update_specific_coin(id, code, price, date)
+    return redirect("/")
 
 #@app.route('/collection', methods=['GET'])
 #def get_history():
@@ -63,16 +65,14 @@ def go_popup(id):
     php = Utils.get_time_from_timestamp(db.get_history_currency(id, "php"))
     eur = Utils.get_time_from_timestamp(db.get_history_currency(id, "eur"))
     cny = Utils.get_time_from_timestamp(db.get_history_currency(id, "cny"))
-    print('usd', usd)
-    print('php', php)
-    print('eur', eur)
-    print('cny', cny)
     return render_template("dashboard.html", coins=coins, coin=coin)
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
 
+
+if __name__ == "__main__":
+    # app.run(debug=True)
+   
     # def get_history():
     #     btc = []
     #     history = gecko.get_history('tether', 'usd')["prices"]

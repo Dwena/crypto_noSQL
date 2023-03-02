@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 
-from crypto_noSQL.API.utils import Utils
+from utils import Utils
 from gecko import geckoAPI
 from datetime import datetime
 from db_connection import Database

@@ -27,6 +27,11 @@ button{
     cursor: pointer;
 }
 
+.active{
+    background-color: #57a444;
+    color: aliceblue;
+}
+
 #modal-image{
     width: 5vw;
 }

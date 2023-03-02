@@ -1,4 +1,6 @@
 from flask import Flask, render_template
+
+from crypto_noSQL.API.utils import Utils
 from gecko import geckoAPI
 from datetime import datetime
 from db_connection import Database
@@ -32,6 +34,14 @@ def go_home():
 def go_popup(id):
     coins = db.get_all_coins()
     coin = db.get_one_coin(id)
+    usd = Utils.get_time_from_timestamp(db.get_history_currency(id, "usd"))
+    php = Utils.get_time_from_timestamp(db.get_history_currency(id, "php"))
+    eur = Utils.get_time_from_timestamp(db.get_history_currency(id, "eur"))
+    cny = Utils.get_time_from_timestamp(db.get_history_currency(id, "cny"))
+    print('usd', usd)
+    print('php', php)
+    print('eur', eur)
+    print('cny', cny)
     return render_template("dashboard.html", coins=coins, coin=coin)
 
 

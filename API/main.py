@@ -16,6 +16,7 @@ def go_home():
 def go_popup(id):
     coins = db.get_all_coins()
     coin = db.get_one_coin(id)
+    # coin_currency = db.get_one_coin_currency(id)
     return render_template("dashboard.html", coins=coins, coin=coin)
 
 

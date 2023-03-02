@@ -1,12 +1,3 @@
-
-TESTER = document.getElementById('myPlot');
-Plotly.newPlot( TESTER, [{
-x: [1, 2, 3, 4, 5],
-// x: date,
-// y: valeur }], {
-y: [1, 2, 4, 8, 16] }], {
-margin: { t: 0 } } );
-
 const coinClicked = document.getElementsByClassName("coin");
 
 for(let i = 0; i < coinClicked.length; i++) {

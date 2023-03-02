@@ -36,6 +36,7 @@
 
           {% if coin %}
           <div id="modal" class="modal">
+            <div style="display:none" id="dataCoin">{{coin[0]}}</div>
             <div class="modal-content">
               <div style="display: flex; justify-content: space-between;">
                 <img id="modal-image" src="{{ coin[0].image }}">
@@ -45,6 +46,7 @@
               <div id="myPlot"></div>
             </div>
           </div>
+          <script src="/static/graph.js"></script>
           {% endif %}
           
         </main>

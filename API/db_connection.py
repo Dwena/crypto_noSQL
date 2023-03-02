@@ -43,15 +43,19 @@ class Database():
     def get_currencies(self):
         return list(self.db.currency.find())
 
-    def update_coin(self, id, price, date):
+    def update_coins(self, id, price, date):
         coin = list(self.db.coins.find({"id": id}))[0]
-        price_per_day = {coin["last_updated"]: coin["current_price"],
-                         date: price}
+        price_per_day = [{coin["last_updated"]: coin["current_price"]},
+                         {date: price}]
         self.db.coins.update_one({"id": id},
                                  {"$set": {"current_price": price,
                                            "last_updated": date,
                                            "price_per_day": price_per_day}}
                                  )
+    
+    def update_specific_coin(self,id,currency,price,date):
+        self.db[f'{id}_{currency}'].insert_one({"date":date,
+                                                "price":price})
 
     # def update_object(self, collection_name, filters, updates):
     #     collection = self.db[collection_name]

@@ -2,3 +2,5 @@ config.py
 lets-encrypt-r3.cer
 __pycache__
 main.ipynb
+*.csv
+*.cer

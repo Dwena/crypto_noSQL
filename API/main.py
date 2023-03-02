@@ -14,20 +14,35 @@ def go_home():
     return render_template("dashboard.html", coins=coins)
 
 
-@app.route('/collection', methods=['GET'])
-def get_history():
-    try:
-        db.drop_collection("bitcoin_usd")
-    except Exception:
-        pass
-    history = gecko.get_history('bitcoin', 'usd')
-    print(history)
-    db.add_data_collection(history, "bitcoin_usd")
-    return 'bitcoin_usd added'
+#@app.route('/collection', methods=['GET'])
+#def get_history():
+ #   try:
+  #      db.drop_collection("bitcoin_usd")
+   # except Exception:
+    #    pass
+    #history = gecko.get_history('bitcoin', 'usd')
+    #print(history)
+    #db.add_data_collection(history, "bitcoin_usd")
+    #return 'bitcoin_usd added'
     # timestamp = 1669852800000 //1000  # Unix timestamp in seconds
     # date = datetime.fromtimestamp(timestamp)  # create a datetime object from the timestamp
     # return date.strftime('%Y-%m-%d')  # format the datetime according to your needs
 
+@app.route('/show/<id>', methods=['GET'])
+def go_popup(id):
+    coins = db.get_all_coins()
+    coin = db.get_one_coin(id)
+    return render_template("dashboard.html", coins=coins, coin=coin)
+
+
+# @app.route("/refresh_coins", methods=['GET'])
+# def refresh_coins():
+#     try:
+#         db.drop_collection("coins")
+#     except Exception:
+#         pass
+#     coins = gecko.get_coins_list()
+#     db.add_data_coins(coins)
 
 if __name__ == "__main__":
     # def get_history():

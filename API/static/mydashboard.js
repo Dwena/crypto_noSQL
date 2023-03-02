@@ -1,9 +1,9 @@
 const coinClicked = document.getElementsByClassName("coin");
 
+// coinClicked.addEventListener("click", ouvrirModal);
 for(let i = 0; i < coinClicked.length; i++) {
     coinClicked[i].addEventListener("click", ouvrirModal)
 }
-// coinClicked.addEventListener("click", ouvrirModal);
 
 function ouvrirModal() {
     console.log("date, valeur")

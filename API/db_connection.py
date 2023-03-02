@@ -38,6 +38,12 @@ class Database():
     def get_all_coins(self):
         collection = self.db.coins.find()
         return list(collection)
+    def get_history(self,id):
+        collection = self.db.history.find({"id": id})
+        return list(collection)
+    def add_data_collection(self,data,collection):
+        print(data)
+        self.db[collection].insert_many(data)
     
     
     # def update_object(self, collection_name, filters, updates):
@@ -59,8 +65,8 @@ class Database():
 if __name__ == "__main__":
     db = Database()
     db.get_collections()
-    get_one_coin()
-    get_all_coins()
+    # get_one_coin()
+    # get_all_coins()
     # update_object()
     # add_object()
     # delete_object()

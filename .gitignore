@@ -4,3 +4,5 @@ __pycache__
 main.ipynb
 *.csv
 *.cer
+package.json
+package-lock.json
